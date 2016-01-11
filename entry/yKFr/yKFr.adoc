@@ -8,6 +8,7 @@
 `git subtree` サブコマンドは、あるリポジトリ配下のサブディレクトリを別のリポジトリにpush,pullできる便利なコマンドです。 +
 `git push` とは違い `git subtree push` には `-f(--force)` オプションが用意されていないようです。
 
+[source,sh-session]
 ----
 $ git subtree push -f
 error: unknown switch `f'
@@ -39,12 +40,14 @@ options for 'add', 'merge', and 'pull'
 
 サブディレクトリ `sub_dir` を リポジトリ `sub_repo` にpushする場合、通常は
 
+[source,sh-session]
 ----
 $ git subtree push --prefix sub_dir sub_repo master
 ----
 
 のようにしますが、これを以下のようにして強制的にpushすることができました。
 
+[source,sh-session]
 ----
 $ git push sub_repo `git subtree split --prefix sub_dir master`:master --force
 ----
@@ -52,13 +55,13 @@ $ git push sub_repo `git subtree split --prefix sub_dir master`:master --force
 `git subtree split` を行うと現在のリビジョンを起点に、サブディレクトリ配下の履歴を作り直してブランチに切り出したりできます。 +
 `git subtree split` だけを実行するといかのようにリビジョンのhash値が返ります。
 
+[source,sh-session]
 ----
 $ git subtree split --prefix sub_dir master
 da89388f6cca71ac613a901a458f4ca4c60d2475
 ----
 
-こうして切り出したブランチを `git push -f` で強制プッシュするという仕組みです。 
-
+こうして切り出したブランチを `git push -f` で強制プッシュするという寸法です。 
 
 == 参考リンク
 * http://ngym.org/2015/git-subtree-split/
