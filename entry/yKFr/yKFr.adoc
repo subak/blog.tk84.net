@@ -45,7 +45,7 @@ options for 'add', 'merge', and 'pull'
 $ git subtree push --prefix sub_dir sub_repo master
 ----
 
-のようにしますが、これを以下のようにして強制的にpushすることができました。
+のようにしますが、これを以下のようにして強制的にpushすることができます。
 
 [source,sh-session]
 ----
