@@ -1,0 +1,65 @@
+= git subtreeで強制的にpushする
+
+`rebase` や `filter-branch` など歴史の書き換えを行った後にリモートリポジトリにpushすると整合性が取れないため失敗します。 +
+こんな時は `git push -f` で強制的にpushを行いますが、 `git subtree push` には強制的にpushするオプションがありません。
+
+== subtree には -f オプションがない
+
+`git subtree` サブコマンドは、あるリポジトリ配下のサブディレクトリを別のリポジトリにpush,pullできる便利なコマンドです。 +
+`git push` とは違い `git subtree push` には `-f(--force)` オプションが用意されていないようです。
+
+----
+$ git subtree push -f
+error: unknown switch `f'
+usage: git subtree add   --prefix=<prefix> <commit>
+   or: git subtree add   --prefix=<prefix> <repository> <ref>
+   or: git subtree merge --prefix=<prefix> <commit>
+   or: git subtree pull  --prefix=<prefix> <repository> <ref>
+   or: git subtree push  --prefix=<prefix> <repository> <ref>
+   or: git subtree split --prefix=<prefix> <commit...>
+
+    -h, --help            show the help
+    -q                    quiet
+    -d                    show debug messages
+    -P, --prefix ...      the name of the subdir to split out
+    -m, --message ...     use the given message as the commit message for the merge commit
+
+options for 'split'
+    --annotate ...        add a prefix to commit message of new commits
+    -b, --branch ...      create a new branch from the split subtree
+    --ignore-joins        ignore prior --rejoin commits
+    --onto ...            try connecting new tree to an existing one
+    --rejoin              merge the new branch back into HEAD
+
+options for 'add', 'merge', and 'pull'
+    --squash              merge subtree changes as a single commit
+----
+
+== コマンド置換と git subtree split を使う
+
+サブディレクトリ `sub_dir` を リポジトリ `sub_repo` にpushする場合、通常は
+
+----
+$ git subtree push --prefix sub_dir sub_repo master
+----
+
+のようにしますが、これを以下のようにして強制的にpushすることができました。
+
+----
+$ git push sub_repo `git subtree split --prefix sub_dir master`:master --force
+----
+
+`git subtree split` を行うと現在のリビジョンを起点に、サブディレクトリ配下の履歴を作り直してブランチに切り出したりできます。 +
+`git subtree split` だけを実行するといかのようにリビジョンのhash値が返ります。
+
+----
+$ git subtree split --prefix sub_dir master
+da89388f6cca71ac613a901a458f4ca4c60d2475
+----
+
+こうして切り出したブランチを `git push -f` で強制プッシュするという仕組みです。 
+
+
+== 参考リンク
+* http://ngym.org/2015/git-subtree-split/
+* https://hail2u.net/blog/software/git-subtree-split---branch.html
