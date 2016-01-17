@@ -1,7 +1,7 @@
 = git subtreeで強制的にpushする
 
 `rebase` や `filter-branch` など歴史の書き換えを行った後にリモートリポジトリにpushすると整合性が取れないため失敗します。 +
-こんな時は `git push -f` で強制的にpushを行いますが、 `git subtree push` には強制的にpushするオプションがありません。
+こんな時は `git push -f` で強制的にpushを行いますが、 困ったことに `git subtree push` には強制的にpushするオプションがありません。
 
 == subtree には -f オプションがない
 
