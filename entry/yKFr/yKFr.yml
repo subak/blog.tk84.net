@@ -1,4 +1,4 @@
 excerpt: 1
 asciidoctor:
   attributes:
-    source-highlighter: pygments
+    source-highlighter: paygments
