@@ -8,29 +8,31 @@ RubyからMecabを扱えるようにmecab-ruby(v0.993)をインストールし�
 
 ## ソースからビルド
 
-    $ cd ~/var
-    $ wget http://mecab.googlecode.com/files/mecab-ruby-0.993.tar.gz
-    $ tar zxfv mecab-ruby-0.993.tar.gz
-    $ cd mecab-ruby-0.993
-    $ ruby extconf.rb
-    $ make
-    $ sudo paco -D make install
-
+```bash
+cd ~/var
+wget http://mecab.googlecode.com/files/mecab-ruby-0.993.tar.gz
+tar zxfv mecab-ruby-0.993.tar.gz
+cd mecab-ruby-0.993
+ruby extconf.rb
+make
+sudo paco -D make install
+```
 
 
 ## 共有ライブラリを認識させる
 
-    $ sudo cp /etc/ld.so.conf /etc/ld.so.conf.org
-    $ sudo nano /etc/ld.so.conf
-    $ diff -u /etc/ld.so.conf.org /etc/ld.so.conf
-    --- /etc/ld.so.conf.org     2012-03-21 15:47:48.000000000 +0900
-    +++ /etc/ld.so.conf     2012-03-21 15:48:24.000000000 +0900
-    @@ -1 +1,2 @@
-     include ld.so.conf.d/*.conf
-    +/usr/local/lib
+```bash
+sudo patch -p0 < mods.patch
+sudo ldconfig
+```
 
-    $ sudo ldconfig
-
+```diff:mods.patch
+--- /etc/ld.so.conf.org     2012-03-21 15:47:48.000000000 +0900
++++ /etc/ld.so.conf     2012-03-21 15:48:24.000000000 +0900
+@@ -1 +1,2 @@
+ include ld.so.conf.d/*.conf
++/usr/local/lib
+```
 
 
 
