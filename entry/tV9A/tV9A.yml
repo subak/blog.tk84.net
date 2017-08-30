@@ -1,4 +1,6 @@
 status: draft
 asciidoctor:
+  attributes:
+    source-highlighter: pygments
   requires:
     - asciidoctor-diagram
